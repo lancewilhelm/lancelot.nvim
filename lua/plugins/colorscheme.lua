@@ -16,4 +16,25 @@ return {
       flavour = 'mocha',
     },
   },
+  {
+    'EdenEast/nightfox.nvim',
+    lazy = true,
+    priority = 1000,
+  },
+  {
+    'rose-pine/neovim',
+    lazy = true,
+    name = 'rose-pine',
+    opts = {
+      variant = 'moon',
+    },
+  },
+  {
+    'navarasu/onedark.nvim',
+    lazy = true,
+    name = 'onedark',
+    opt = {
+      style = 'dark',
+    },
+  },
 }

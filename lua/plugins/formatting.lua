@@ -1,10 +1,10 @@
--- Autoformat
 return {
+{
   'stevearc/conform.nvim',
   lazy = false,
   keys = {
     {
-      '<leader>f',
+      '<leader>cf',
       function()
         require('conform').format { async = true, lsp_fallback = true }
       end,
@@ -34,4 +34,5 @@ return {
       -- javascript = { { "prettierd", "prettier" } },
     },
   },
+},
 }

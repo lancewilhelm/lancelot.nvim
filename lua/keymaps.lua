@@ -23,7 +23,7 @@ map('n', '[d', diagnostic_goto(false), { desc = 'Go to previous [d]iagnostic mes
 map('n', ']d', diagnostic_goto(true), { desc = 'Go to next [d]iagnostic message' })
 
 -- explorer stuff
-
+map('n', '<leader>fE', '<cmd>Explore<cr>', { desc = 'Open Netrw file [e]plorer' })
 -- lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Open [L]azy' })
 

@@ -1,21 +1,19 @@
--- Set <space> as the leader key
--- See `:help mapleader`
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+-- order matters with these declarations!!!
 
-vim.g.have_nerd_font = true
-
--- [[ Options ]]
+-- options
 require 'options'
 
--- [[ Keymaps ]]
+-- keymaps
 require 'keymaps'
 
--- [[ Install and initialize `lazy.vim` plugin manager ]]
+-- install and initialize `lazy.vim` plugin manager
 require 'lazy-bootstrap'
 
--- [[ Plugins ]]
-require 'plugins'
+-- plugins
+require('lazy').setup('plugins')
 
--- The line beneath this is called `modeline`. See `:help modeline`
+-- placing theme here until I find a better spot
+vim.cmd.colorscheme 'tokyonight-moon'
+
+-- the line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

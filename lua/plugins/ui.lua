@@ -1,11 +1,44 @@
--- NOTE: Plugins can specify dependencies.
---
--- The dependencies are proper plugin specifications as well - anything
--- you do for a plugin at the top level, you can do for a dependency.
---
--- Use the `dependencies` key to specify the dependencies of a particular plugin
-
-return { -- Fuzzy Finder (files, lsp, etc)
+return {
+  { 
+          'nvim-tree/nvim-web-devicons', 
+          lazy = true 
+  },
+  {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      require('dashboard').setup {
+        --config
+      }
+    end,
+    requires = { 'nvim-tree/nvim-web-devicons' },
+  },
+        {
+    "lukas-reineke/indent-blankline.nvim",
+    opts = {
+      indent = {
+        char = "│",
+        tab_char = "│",
+      },
+      scope = { show_start = false, show_end = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "Trouble",
+          "trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+      },
+    },
+    main = "ibl",
+  },{ -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
   branch = '0.1.x',
@@ -108,4 +141,5 @@ return { -- Fuzzy Finder (files, lsp, etc)
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
     end, { desc = '[S]earch [N]eovim files' })
   end,
+}
 }

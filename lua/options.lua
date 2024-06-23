@@ -1,7 +1,6 @@
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+vim.g.have_nerd_font = true
 
 -- Make line numbers default
 vim.opt.number = true
@@ -58,3 +57,7 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 8
+
+vim.opt.expandtab = true -- use spaces instead of tabs
+vim.opt.tabstop = 2 -- number of spaces tabs count for

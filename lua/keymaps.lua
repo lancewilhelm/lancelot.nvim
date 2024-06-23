@@ -24,8 +24,12 @@ map('n', ']d', diagnostic_goto(true), { desc = 'Go to next [d]iagnostic message'
 
 -- explorer stuff
 map('n', '<leader>fE', '<cmd>Explore<cr>', { desc = 'Open Netrw file [e]plorer' })
+
 -- lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Open [L]azy' })
+
+-- dashboard
+map('n', '<leader>ud', '<cmd>Dashboard<cr>', { desc = 'Opens the [d]ashboard' })
 
 -- window movements & actions
 map('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })

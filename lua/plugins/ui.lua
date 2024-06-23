@@ -7,8 +7,60 @@ return {
     'nvimdev/dashboard-nvim',
     event = 'VimEnter',
     config = function()
+      local function generate_header()
+        local logo = [[
+                                         *                                      
+            *               *                         *                 *       
+  *                *               *            *          *    *               
+     *   ▄▄▄     ▄▄▄▄▄▄▄ ▄▄    ▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄     ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄   *    
+        █   █   █       █  █  █ █       █       █   █   █       █       █       
+  *     █   █   █   ▄   █   █▄█ █       █    ▄▄▄█   █   █   ▄   █▄     ▄█       
+        █   █   █  █▄█  █       █     ▄▄█   █▄▄▄█   █   █  █ █  █ █   █   *     
+        █   █▄▄▄█       █  ▄    █    █  █    ▄▄▄█   █▄▄▄█  █▄█  █ █   █         
+     *  █       █   ▄   █ █ █   █    █▄▄█   █▄▄▄█       █       █ █   █     *   
+        █▄▄▄▄▄▄▄█▄▄█ █▄▄█▄█  █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█ █▄▄▄█         
+   *                          *                          *             *        
+       *    *                        *            *               *             
+                  *      *                 *               *                    
+        ]]
+
+        -- logo = string.rep('\n', 2) .. logo .. '\n\n'
+
+        return vim.split(logo, '\n')
+      end
+
+      local function get_random_quote()
+        local quotes = {
+          'gyatt dam',
+          'ooo baby a triple',
+          'les getit',
+          'lightweight babay',
+          "ain't nutt'n but a peanut",
+        }
+
+        math.randomseed(os.time())
+        local random_index = math.random(#quotes)
+        return { '', '', quotes[random_index] }
+      end
+
       require('dashboard').setup {
-        --config
+        config = {
+          header = generate_header(),
+          shortcut = {
+            { desc = ' files', key = 'f', action = 'Telescope' },
+            {
+              desc = ' config',
+              key = 'c',
+              action = function()
+                require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
+              end,
+            },
+          },
+          hide = {
+            statusline = true,
+          },
+          footer = get_random_quote(),
+        },
       }
     end,
     requires = { 'nvim-tree/nvim-web-devicons' },
@@ -138,9 +190,9 @@ return {
       end, { desc = '[S]earch [/] in Open Files' })
 
       -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set('n', '<leader>sn', function()
+      vim.keymap.set('n', '<leader>sc', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = '[S]earch [N]eovim files' })
+      end, { desc = '[S]earch neovim [c]onfig' })
     end,
   },
 }

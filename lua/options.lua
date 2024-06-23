@@ -61,3 +61,5 @@ vim.opt.sidescrolloff = 8
 
 vim.opt.expandtab = true -- use spaces instead of tabs
 vim.opt.tabstop = 2 -- number of spaces tabs count for
+
+vim.opt.termguicolors = true

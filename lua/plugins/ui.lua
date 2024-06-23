@@ -5,7 +5,7 @@ return {
   },
   {
     'nvimdev/dashboard-nvim',
-    event = 'VimEnter',
+    lazy = false,
     config = function()
       local function generate_header()
         local logo = [[
@@ -47,12 +47,44 @@ return {
         config = {
           header = generate_header(),
           shortcut = {
-            { desc = ' files', key = 'f', action = 'Telescope' },
             {
-              desc = ' config',
+              desc = ' files',
+              key = 'f',
+              action = function()
+                require('telescope.builtin').find_files()
+              end,
+            },
+            {
+              desc = ' new',
+              key = 'n',
+              action = 'ene | startinsert',
+            },
+            {
+              desc = ' recent',
+              key = 'r',
+              action = function()
+                require('telescope.builtin').oldfiles()
+              end,
+            },
+            {
+              desc = '󱎸 text',
+              key = 't',
+              action = function()
+                require('telescope.builtin').live_grep()
+              end,
+            },
+            {
+              desc = ' conf',
               key = 'c',
               action = function()
                 require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
+              end,
+            },
+            {
+              desc = '󰩈 exit',
+              key = 'q',
+              action = function()
+                vim.api.nvim_input '<cmd>qa<cr>'
               end,
             },
           },
@@ -67,6 +99,7 @@ return {
   },
   {
     'lukas-reineke/indent-blankline.nvim',
+    event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
     opts = {
       indent = {
         char = '│',
@@ -93,7 +126,7 @@ return {
   },
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
+    event = 'VeryLazy',
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -116,25 +149,6 @@ return {
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
-      -- Telescope is a fuzzy finder that comes with a lot of different things that
-      -- it can fuzzy find! It's more than just a "file finder", it can search
-      -- many different aspects of Neovim, your workspace, LSP, and more!
-      --
-      -- The easiest way to use Telescope, is to start by doing something like:
-      --  :Telescope help_tags
-      --
-      -- After running this command, a window will open up and you're able to
-      -- type in the prompt window. You'll see a list of `help_tags` options and
-      -- a corresponding preview of the help.
-      --
-      -- Two important keymaps to use while in Telescope are:
-      --  - Insert mode: <c-/>
-      --  - Normal mode: ?
-      --
-      -- This opens a window that shows you all of the keymaps for the current
-      -- Telescope picker. This is really useful to discover what Telescope can
-      -- do as well as how to actually do it!
-
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
       require('telescope').setup {
@@ -146,7 +160,15 @@ return {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+          buffers = {
+            mappings = {
+              i = {
+                ['<C-q>'] = require('telescope.actions').delete_buffer + require('telescope.actions').move_to_top,
+              },
+            },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -194,5 +216,15 @@ return {
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch neovim [c]onfig' })
     end,
+  },
+  {
+    'rcarriga/nvim-notify',
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    event = 'VeryLazy',
+    opts = {
+      theme = 'auto',
+    },
   },
 }

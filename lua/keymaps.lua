@@ -1,5 +1,12 @@
 local map = vim.keymap.set
 
+-- better indenting
+map('v', '<', '<gv')
+map('v', '>', '>gv')
+
+-- new file
+map('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
+
 -- training wheels: disables arrow keys
 map('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 map('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
@@ -23,7 +30,7 @@ map('n', '[d', diagnostic_goto(false), { desc = 'Go to previous [d]iagnostic mes
 map('n', ']d', diagnostic_goto(true), { desc = 'Go to next [d]iagnostic message' })
 
 -- explorer stuff
-map('n', '<leader>fE', '<cmd>Explore<cr>', { desc = 'Open Netrw file [e]plorer' })
+map('n', '<leader>fE', '<cmd>Explore<cr>', { desc = 'Open Netrw [f]ile [e]plorer' })
 
 -- lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Open [L]azy' })
@@ -44,6 +51,12 @@ map('n', '<leader>ww', '<C-w>p', { desc = 'Switch to other [w]indow' })
 map('n', '<leader>wd', '<C-w>c', { desc = '[D]elete window' })
 map('n', '<leader>ws', '<C-w>s', { desc = '[S]plit window below' })
 map('n', '<leader>wv', '<C-w>v', { desc = '[S]plit window right' })
+
+-- buffers
+map('n', '<leader>bd', '<cmd>bd<cr>', { desc = '[D]elete current [b]uffer and window' })
+
+-- quit
+map('n', '<leader>qq', '<cmd>qa<cr>', { desc = '[Q]uit all' })
 
 -- move lines
 map('n', '<A-j>', '<cmd>m .+1<cr>==', { desc = 'Move Down' })

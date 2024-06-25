@@ -1,5 +1,22 @@
 return {
   {
+    'rcarriga/nvim-notify',
+    event = 'VeryLazy',
+    keys = {
+      {
+        '<leader>un',
+        function()
+          require('notify').dismiss { silent = true, pending = true }
+        end,
+        desc = 'Dismiss All Notifications',
+      },
+    },
+    opts = {},
+    init = function()
+      vim.notify = require 'notify'
+    end,
+  },
+  {
     'nvim-tree/nvim-web-devicons',
     lazy = true,
   },
@@ -31,7 +48,7 @@ return {
 
       local function get_random_quote()
         local quotes = {
-          'gyatt dam',
+          'gyatt damn',
           'ooo baby a triple',
           'les getit',
           'lightweight babay',
@@ -90,6 +107,7 @@ return {
           },
           hide = {
             statusline = true,
+            tabline = false,
           },
           footer = get_random_quote(),
         },
@@ -179,6 +197,7 @@ return {
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'notify')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -192,6 +211,7 @@ return {
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>sn', '<cmd>Telescope notify<cr>', { desc = '[S]earch [n]otifications' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -225,6 +245,71 @@ return {
     event = 'VeryLazy',
     opts = {
       theme = 'auto',
+    },
+  },
+  {
+    'folke/noice.nvim',
+    event = 'VeryLazy',
+    opts = {
+      lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+          ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+          ['vim.lsp.util.stylize_markdown'] = true,
+          ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
+        },
+      },
+      -- you can enable a preset for easier configuration
+      presets = {
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false, -- add a border to hover docs and signature help
+      },
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      'MunifTanjim/nui.nvim',
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      'rcarriga/nvim-notify',
+    },
+  },
+  {
+    'akinsho/bufferline.nvim',
+    event = 'VeryLazy',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    version = '*',
+    opts = {
+      options = {
+        always_show_bufferline = false,
+        diagnostics = 'nvim_lsp',
+        separator_style = 'slant',
+        numbers = function(opts)
+          return string.format('%s', opts.raise(opts.ordinal))
+        end,
+        offsets = {
+          {
+            filetype = 'neo-tree',
+            text = 'Neo-tree',
+            highlight = 'Directory',
+            text_align = 'left',
+          },
+        },
+      },
+    },
+    keys = {
+      { '<leader>1', "<cmd>lua require('bufferline').go_to(1, true)<cr>", desc = 'Goto bufferline 1' },
+      { '<leader>2', "<cmd>lua require('bufferline').go_to(2, true)<cr>", desc = 'Goto bufferline 2' },
+      { '<leader>3', "<cmd>lua require('bufferline').go_to(3, true)<cr>", desc = 'Goto eufferline 3' },
+      { '<leader>4', "<cmd>lua require('bufferline').go_to(4, true)<cr>", desc = 'Goto eufferline 4' },
+      { '<leader>5', "<cmd>lua require('bufferline').go_to(5, true)<cr>", desc = 'Goto eufferline 5' },
+      { '<leader>6', "<cmd>lua require('bufferline').go_to(6, true)<cr>", desc = 'Goto eufferline 6' },
+      { '<leader>7', "<cmd>lua require('bufferline').go_to(7, true)<cr>", desc = 'Goto eufferline 7' },
+      { '<leader>8', "<cmd>lua require('bufferline').go_to(8, true)<cr>", desc = 'Goto eufferline 8' },
+      { '<leader>9', "<cmd>lua require('bufferline').go_to(9, true)<cr>", desc = 'Goto eufferline 9' },
     },
   },
 }

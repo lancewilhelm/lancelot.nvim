@@ -1,16 +1,17 @@
 -- order matters with these declarations!!!
 
 -- options
-require 'options'
+-- require 'options'
+require 'config.lazy'
 
 -- keymaps
 require 'keymaps'
 
 -- install and initialize `lazy.vim` plugin manager
-require 'lazy-bootstrap'
+-- require 'lazy-bootstrap'
 
 -- plugins
-require('lazy').setup 'plugins'
+-- require('lazy').setup 'plugins'
 
 -- placing theme here until I find a better spot
 vim.cmd.colorscheme 'catppuccin'

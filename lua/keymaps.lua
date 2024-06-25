@@ -53,7 +53,12 @@ map('n', '<leader>ws', '<C-w>s', { desc = '[S]plit window below' })
 map('n', '<leader>wv', '<C-w>v', { desc = '[S]plit window right' })
 
 -- buffers
-map('n', '<leader>bd', '<cmd>bd<cr>', { desc = '[D]elete current [b]uffer and window' })
+-- map('n', '<leader>bd', '<cmd>bd<cr>', { desc = '[D]elete current [b]uffer and window' })
+map('n', '<leader>bd', require('utils').bufremove, { desc = '[D]elete current [b]uffer' })
+map('n', '<A-h>', '<cmd>bprevious<cr>', { desc = 'Goto previous [b]uffer' })
+map('n', '<A-l>', '<cmd>bnext<cr>', { desc = 'Goto next [b]uffer' })
+map('n', '<A-S-h>', '<cmd>BufferLineMovePrev<cr>', { desc = 'Move [b]uffer left' })
+map('n', '<A-S-l>', '<cmd>BufferLineMoveNext<cr>', { desc = 'Move [b]uffer right' })
 
 -- quit
 map('n', '<leader>qq', '<cmd>qa<cr>', { desc = '[Q]uit all' })

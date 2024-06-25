@@ -28,9 +28,8 @@ end
 map('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Open line [d]iagnotics' })
 map('n', '[d', diagnostic_goto(false), { desc = 'Go to previous [d]iagnostic message' })
 map('n', ']d', diagnostic_goto(true), { desc = 'Go to next [d]iagnostic message' })
-
--- explorer stuff
-map('n', '<leader>fE', '<cmd>Explore<cr>', { desc = 'Open Netrw [f]ile [e]plorer' })
+-- map('n', '<leader>xl', '<cmd>lopen<cr>', { desc = 'Location List' })
+-- map('n', '<leader>xq', '<cmd>copen<cr>', { desc = 'Quickfix List' })
 
 -- lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Open [L]azy' })
@@ -70,6 +69,10 @@ map('i', '<A-j>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move Down' })
 map('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move Up' })
 map('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move Down' })
 map('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move Up' })
+
+-- commenting
+map('n', 'gco', 'o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Below' })
+map('n', 'gcO', 'O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Above' })
 
 -- terminal stuff I plan to never use because why use the terminal in here?
 map('t', '<esc><esc>', '<C-\\><C-n>', { desc = 'Enter normal mode' })

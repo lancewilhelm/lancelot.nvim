@@ -42,4 +42,40 @@ function M.bufremove(buf)
   end
 end
 
+local enabled = true
+function M.diagnostics()
+  -- if this Neovim version supports checking if diagnostics are enabled
+  -- then use that for the current state
+  if vim.diagnostic.is_enabled then
+    enabled = vim.diagnostic.is_enabled()
+  end
+  enabled = not enabled
+
+  if enabled then
+    vim.diagnostic.enable()
+    require('noice').notify('Enabled diagnostics', 'info', { title = 'Diagnostics' })
+  else
+    vim.diagnostic.enable(false)
+    require('noice').notify('Disabled diagnostics', 'info', { title = 'Diagnostics' })
+  end
+end
+
+function M.toggle_option(option)
+  vim.opt_local[option] = not vim.opt_local[option]:get()
+end
+
+local nu = { number = true, relativenumber = true }
+function M.number()
+  if vim.opt_local.number:get() or vim.opt_local.relativenumber:get() then
+    nu = { number = vim.opt_local.number:get(), relativenumber = vim.opt_local.relativenumber:get() }
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    require('noice').notify('Diabled line numbers', 'info', { title = 'Option' })
+  else
+    vim.opt_local.number = nu.number
+    vim.opt_local.relativenumber = nu.relativenumber
+    require('noice').notify('Diabled line numbers', 'info', { title = 'Option' })
+  end
+end
+
 return M

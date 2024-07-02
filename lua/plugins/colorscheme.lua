@@ -37,4 +37,10 @@ return {
       style = 'dark',
     },
   },
+  {
+    'oxfist/night-owl.nvim',
+    lazy = true,
+    name = 'night-owl',
+    opts = {},
+  },
 }

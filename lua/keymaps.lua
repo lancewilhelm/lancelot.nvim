@@ -7,11 +7,25 @@ map('v', '>', '>gv')
 -- new file
 map('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
 
+-- do not yank on paste in visual mode
+map('x', 'p', 'P')
+
+-- ctrl + s to save
+-- map('n', '<C-s>', '<cmd>w<cr>', { desc = 'Save file' })
+
 -- training wheels: disables arrow keys
 map('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 map('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 map('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 map('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+map('i', '<left>', '<cmd>echo "Use normal mode to move!!"<CR>')
+map('i', '<right>', '<cmd>echo "Use normal mode to move!!"<CR>')
+map('i', '<up>', '<cmd>echo "Use normal mode to move!!"<CR>')
+map('i', '<down>', '<cmd>echo "Use normal mode to move!!"<CR>')
+
+-- display line movement rather than logical lines
+map('n', 'j', 'gj')
+map('n', 'k', 'gk')
 
 -- set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -35,13 +49,9 @@ map('n', ']d', diagnostic_goto(true), { desc = 'Go to next [d]iagnostic message'
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Open [L]azy' })
 
 -- dashboard
-map('n', '<leader>ud', '<cmd>Dashboard<cr>', { desc = 'Opens the [d]ashboard' })
+-- map('n', '<leader>ud', '<cmd>Dashboard<cr>', { desc = 'Opens the [d]ashboard' })
 
 -- window movements & actions
-map('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-map('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-map('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 map('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window width' })
 map('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase window width' })
 map('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease window height' })
@@ -78,6 +88,26 @@ map('n', 'gcO', 'O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Commen
 map('t', '<esc><esc>', '<C-\\><C-n>', { desc = 'Enter normal mode' })
 map('t', '<C-/>', '<cmd>close<cr>', { desc = 'Hide terminal' })
 
+-- toggles
+map('n', '<leader>ud', require('utils').diagnostics, { desc = 'Toggle [d]iagnotics' })
+map('n', '<leader>uw', function()
+  require('utils').toggle_option 'wrap'
+end, { desc = 'Toggle Word [W]rap' })
+map('n', '<leader>us', function()
+  require('utils').toggle_option 'spell'
+end, { desc = 'Toggle [S]pelling' })
+map('n', '<leader>uL', function()
+  require('utils').toggle_option 'relativenumber'
+end, { desc = 'Toggle relative [l]ine numbers' })
+map('n', '<leader>ul', require('utils').number, { desc = 'Toggle [l]ine numbers' })
+map('n', '<leader>uT', function()
+  if vim.b.ts_highlight then
+    vim.treesitter.stop()
+  else
+    vim.treesitter.start()
+  end
+end, { desc = 'Toggle Treesitter Highlight' })
+
 -- [[ Autocommands ]]
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -86,4 +116,33 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank()
   end,
+})
+
+vim.g.disable_autoformat = false
+vim.b.disable_autoformat = false
+vim.api.nvim_create_user_command('FormatToggle', function(args)
+  if args.bang then
+    local disable_autoformat = vim.g.disable_autoformat
+    disable_autoformat = not disable_autoformat
+    if disable_autoformat then
+      vim.g.disable_autoformat = true
+      require('noice').notify('Global formatting on save disabled', 'warn', { title = 'Formatting' })
+    else
+      vim.g.disable_autoformat = false
+      require('noice').notify('Global formatting on save enabled', 'info', { title = 'Formatting' })
+    end
+  else
+    local disable_autoformat = vim.b.disable_autoformat
+    disable_autoformat = not disable_autoformat
+    if disable_autoformat then
+      vim.b.disable_autoformat = true
+      require('noice').notify('Buffer formatting on save disabled', 'warn', { title = 'Formatting' })
+    else
+      vim.b.disable_autoformat = false
+      require('noice').notify('Buffer formatting on save enabled', 'info', { title = 'Formatting' })
+    end
+  end
+end, {
+  desc = 'Toggle autoformat-on-save',
+  bang = true,
 })

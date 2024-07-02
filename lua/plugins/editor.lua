@@ -71,6 +71,12 @@ return {
         ['<leader>f'] = { name = '[F]ile', _ = 'which_key_ignore' },
         ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
         ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
+        ['<leader>o'] = { name = '[O]bsidian', _ = 'which_key_ignore' },
+        ['<leader>q'] = { name = '[Q]uit', _ = 'which_key_ignore' },
+        ['<leader>u'] = { name = '[U]ser Interface', _ = 'which_key_ignore' },
+        ['<leader>x'] = { name = 'Trouble', _ = 'which_key_ignore' },
+        ['<leader>ss'] = { name = '[S]pectre', _ = 'which_key_ignore' },
+        ['<leader>uc'] = { name = '[C]olorizer', _ = 'which_key_ignore' },
       }
       -- visual mode
       require('which-key').register({
@@ -170,7 +176,7 @@ return {
           else
             local ok, err = pcall(vim.cmd.cprev)
             if not ok then
-              vim.notify(err, vim.log.levels.ERROR)
+              require('noice').notify(err, vim.log.levels.ERROR, { title = 'Trouble' })
             end
           end
         end,
@@ -184,7 +190,7 @@ return {
           else
             local ok, err = pcall(vim.cmd.cnext)
             if not ok then
-              vim.notify(err, vim.log.levels.ERROR)
+              require('noice').notify(err, vim.log.levels.ERROR, { title = 'Trouble' })
             end
           end
         end,
@@ -192,41 +198,39 @@ return {
       },
     },
   },
-  -- {
-  --   'ThePrimeagen/harpoon',
-  --   event = 'VeryLazy',
-  --   branch = 'harpoon2',
-  --   dependencies = { 'nvim-lua/plenary.nvim' },
-  --   opts = {},
-  --   keys = function()
-  --     local keys = {
-  --       {
-  --         '<leader>H',
-  --         function()
-  --           require('harpoon'):list():add()
-  --         end,
-  --         desc = 'Harpoon File',
-  --       },
-  --       {
-  --         '<leader>h',
-  --         function()
-  --           local harpoon = require 'harpoon'
-  --           harpoon.ui:toggle_quick_menu(harpoon:list())
-  --         end,
-  --         desc = 'Harpoon Quick Menu',
-  --       },
-  --     }
-  --
-  --     for i = 1, 5 do
-  --       table.insert(keys, {
-  --         '<leader>' .. i,
-  --         function()
-  --           require('harpoon'):list():select(i)
-  --         end,
-  --         desc = 'Harpoon to File ' .. i,
-  --       })
-  --     end
-  --     return keys
-  --   end,
-  -- },
+  {
+    'mbbill/undotree',
+    event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
+    config = function()
+      vim.g.undotree_WindowLayout = 'Style 3'
+      vim.g.undotree_SetFocusWhenToggle = 1
+    end,
+    keys = {
+      { '<leader>bu', '<cmd>UndotreeToggle<cr>', desc = 'Show [u]ndo tree' },
+    },
+  },
+  {
+    'christoomey/vim-tmux-navigator',
+    cmd = {
+      'TmuxNavigateLeft',
+      'TmuxNavigateDown',
+      'TmuxNavigateUp',
+      'TmuxNavigateRight',
+      'TmuxNavigatePrevious',
+    },
+    keys = {
+      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
+      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
+      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
+      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
+      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
+    },
+  },
+  {
+    'kshenoy/vim-signature',
+    event = 'VeryLazy',
+    keys = {
+      { '<leader>um', '<cmd>SignatureToggle<cr>', desc = 'Toggle [m]ark signatures' },
+    },
+  },
 }

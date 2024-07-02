@@ -21,4 +21,29 @@ return {
       { '<leader>gc', '<cmd>LazyGitFilterCurrentFile<cr>', desc = 'View project [c]ommits' },
     },
   },
+  {
+    'epwalsh/obsidian.nvim',
+    version = '*',
+    event = 'VeryLazy',
+    ft = 'markdown',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {
+      workspaces = {
+        {
+          name = 'personal',
+          path = "~/Documents/Lance's Vault/",
+        },
+      },
+    },
+    keys = {
+      { '<leader>oo', '<cmd>ObsidianOpen<cr>', '[O]pen note in Obsidian' },
+      { '<leader>on', '<cmd>ObsidianNew<cr>', '[N]ew note' },
+      { '<leader>ob', '<cmd>ObsidianBacklinks<cr>', 'Note [b]acklinks' },
+      { '<leader>ot', '<cmd>ObsidianTemplate<cr>', 'Insert [t]emplate' },
+      { '<leader>os', '<cmd>ObsidianSearch<cr>', 'Seach [n]otes' },
+      { '<leader>ol', '<cmd>ObsidianLinks<cr>', 'Note [l]inks' },
+    },
+  },
 }

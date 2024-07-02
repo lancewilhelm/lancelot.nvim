@@ -144,4 +144,15 @@ return {
       })
     end,
   },
+  {
+    'nvim-pack/nvim-spectre',
+    keys = {
+      { '<leader>sss', "<cmd>lua require('spectre').toggle_file_search()<cr>", desc = '[S]pectre on file' },
+      { '<leader>ssw', "<cmd>lua require('spectre').toggle_file_search({select_word=true})<cr>", desc = '[S]pectre current word' },
+      { '<leader>ssw', "<esc><cmd>lua require('spectre').toggle_file_search()<cr>", mode = 'v', desc = '[S]pectre current word' },
+      { '<leader>ssS', "<cmd>lua require('spectre').toggle()<cr>", desc = '[S]pectre on cwd' },
+      { '<leader>ssW', "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", desc = '[S]pectre current word' },
+      { '<leader>ssW', "<esc><cmd>lua require('spectre').open_visual()<cr>", mode = 'v', desc = '[S]pectre current word' },
+    },
+  },
 }
